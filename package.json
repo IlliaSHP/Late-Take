@@ -9,7 +9,7 @@
     "web": "pnpm --filter web",
     "ext": "pnpm --filter ext",
     "ts-check": "pnpm -r exec tsc --noEmit",
-    "dev":"pnpm -r --parallel dev"
+    "dev": "pnpm -r --parallel dev"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +22,13 @@
     }
   },
   "packageManager": "pnpm@11.25.0",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^10.9.1",
+    "eslint-config-expo": "^57.0.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "prettier": "^3.9.6",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.69.0"
+  }
 }
