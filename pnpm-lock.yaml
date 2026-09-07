@@ -246,6 +246,9 @@ importers:
       '@app/constants':
         specifier: workspace:^
         version: link:../../packages/constants
+      '@app/tokens':
+        specifier: workspace:^
+        version: link:../../packages/tokens
       '@app/types':
         specifier: workspace:^
         version: link:../../packages/types
