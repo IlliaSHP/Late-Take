@@ -12,3 +12,5 @@ export interface ITitle {
   cover: string | null
   status: TStatus
 }
+
+export * from './ui'

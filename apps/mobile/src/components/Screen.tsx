@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { colors, spaces } from '@app/tokens'
+import { colors, space } from '@app/tokens'
 
 interface Props {
   // children: React.ReactNode
@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.bg.base,
-    paddingHorizontal: spaces[6]
+    paddingHorizontal: space[6]
   }
 })
