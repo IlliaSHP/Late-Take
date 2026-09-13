@@ -1,24 +1,19 @@
-import { Link } from 'expo-router'
-import { Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { router, useLocalSearchParams } from 'expo-router'
+import { Pressable, Text } from 'react-native'
 
-import { MEDIA_TYPES } from '@app/types'
+import { Screen } from '@/components/Screen'
 
-import { TYPE_LABELS } from '@app/constants'
+export default function TitleDetail() {
+  const { id, type } = useLocalSearchParams<{ id: string; type: string }>()
 
-export default function Library() {
   return (
-    <SafeAreaView>
-      <Text>Library</Text>
-
-      {MEDIA_TYPES.map(type => (
-        <Link
-          key={type}
-          href={`/title/${type}/1`}
-        >
-          {TYPE_LABELS[type]}
-        </Link>
-      ))}
-    </SafeAreaView>
+    <Screen>
+      <Text>
+        Title {type} {id}
+      </Text>
+      <Pressable onPress={() => router.back()}>
+        <Text>Back</Text>
+      </Pressable>
+    </Screen>
   )
 }

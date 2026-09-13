@@ -12,7 +12,8 @@
     "web": "pnpm --filter web",
     "ext": "pnpm --filter ext",
     "ts-check": "pnpm -r exec tsc --noEmit",
-    "dev": "pnpm -r --parallel dev"
+    "dev": "pnpm -r --parallel dev",
+    "back:dev": "cd ../back-end/r-m-back-end-version_1 && pnpm start:dev"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "eslint": "^9.39.5",
     "eslint-config-expo": "^57.0.2",
     "eslint-plugin-jsx-a11y": "^6.10.2",

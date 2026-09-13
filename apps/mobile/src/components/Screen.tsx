@@ -21,6 +21,31 @@ export function Screen({ children, edges = ['top'] }: Props) {
   )
 }
 
+
+// 
+// Similar manual implementation, but it overrides existing padding
+// instead of adding the safe-area insets to it:
+// 
+// export function Screen({ children, edges = ['top'] }: Props) {
+//   const insets = useSafeAreaInsets()
+
+//   return (
+//     <View
+//       style={[
+//         styles.root,
+//         edges.map(edge =>
+//           edge === 'top'
+//           ? { paddingTop: insets.top }
+//           : { paddingBottom: insets.bottom }
+//         )
+//       ]}
+//     >
+//       {children}
+//     </View>
+//   )
+// }
+// //
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
