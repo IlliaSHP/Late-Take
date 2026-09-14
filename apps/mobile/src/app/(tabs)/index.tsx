@@ -43,6 +43,19 @@ export default function Index() {
           {TYPE_LABELS[type]}
         </Text>
       ))}
+
+      {/*
+        Header
+          Left side: Logo (naming)
+          Right side: Bell (notifications)
+      
+        Slider (continue "watching")
+          Buttons: Read more, Plus (to add watchlist)
+      
+        Top picks for you (Carousel)
+      
+        Popular (Carousel)
+      */}
     </View>
   )
 }

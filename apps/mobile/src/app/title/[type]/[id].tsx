@@ -14,6 +14,41 @@ export default function TitleDetail() {
       <Pressable onPress={() => router.back()}>
         <Text>Back</Text>
       </Pressable>
-    </Screen>
+
+      {/*
+        Header
+          Left side: Back button (arrow left)
+      
+        Backdrop Image
+        Title
+      
+        Meta line
+          RATING, age, year, duration, genre...
+      
+        Description + AI summary button (no spoilers)
+      
+        Primary button
+          none     → [ + Add to library ]
+          want     → [ Start ]
+          progress → [ Mark as done ]
+          done     → [ ✓ Done ] (not clickable)
+          dropped  → [ Dropped ]
+      
+        LONG PRESS
+          Opens full list of actions:
+          want, progress, done, dropped
+      
+        Details
+          Cast / Director / Author /
+          Developer / Studio — depends on type
+      
+        Actions
+          Add to Watchlist, add to collection, share...
+      
+        Similar titles (Carousel)
+      
+        Reviews (possible add review button)
+      */}
+    </Screen>  
   )
 }
