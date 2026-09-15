@@ -21,11 +21,10 @@ export function Screen({ children, edges = ['top'] }: Props) {
   )
 }
 
-
-// 
+//
 // Similar manual implementation, but it overrides existing padding
 // instead of adding the safe-area insets to it:
-// 
+//
 // export function Screen({ children, edges = ['top'] }: Props) {
 //   const insets = useSafeAreaInsets()
 

@@ -7,12 +7,13 @@ import { TYPE_LABELS } from '@app/constants'
 
 import { colors, fontSize, space } from '@app/tokens'
 
-import { Screen } from '@/components/Screen'
+import { Screen } from '@/components/ui/Screen'
+import ScreenTitle from '../../components/ui/ScreenTitle'
 
 export default function Library() {
   return (
     <Screen>
-      <Text>Library</Text>
+      <ScreenTitle>Library</ScreenTitle>
       {MEDIA_TYPES.map(type => (
         <Link
           key={type}
