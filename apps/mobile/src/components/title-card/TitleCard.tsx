@@ -1,6 +1,5 @@
 import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect'
 import { Image } from 'expo-image'
-import { LinearGradient } from 'expo-linear-gradient'
 import { Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -25,24 +24,41 @@ export default function TitleCard({ title, onPress }: Props) {
   const config = CARD_CONFIG[title.type]
 
   const scale = useSharedValue(1)
+  const glow = useSharedValue(0)
   
   const animated = useAnimatedStyle(() => ({
     transform: [{ scale: scale.get() }]
   }))
+  const animatedGlow = useAnimatedStyle(() => ({
+    opacity: glow.get(),
+    boxShadow: [{
+      offsetX: 0,
+      offsetY: 0,
+      blurRadius: glow.get(),          // ← ось тут анімоване значення
+      spreadDistance: 0,
+      color: colors.accent[title.type], // ← а це лишається статичним, як є
+      inset: true,
+    }]
+  }))
 
   const handlePressIn = () => {
     // scale.set(withSpring(0.95))
-    scale.set(withSpring(0.94, {stiffness: 1300}))
+    scale.set(withSpring(0.94, { stiffness: 1300 }))
+    glow.set(withSpring(8))
   }
   const handlePressOut = () => {
     scale.set(withSpring(1))
+    glow.set(withSpring(0))
+    
   }
 
   return (
     <View
       style={{
-        width: config.width,
-        height: config.height
+        // width: config.width,
+        // height: config.height
+        width: 132,
+        height: 198
       }}
     >
       {config.stacked && (
@@ -82,8 +98,8 @@ export default function TitleCard({ title, onPress }: Props) {
           styles.card,
           {
             borderRadius: config.radius,
-            borderWidth: config.glow ? 1 : 0,
-            bordeColor: config.glow ?? 'transparent'
+            // borderWidth: config.glow ? 1 : 0,
+            // borderColor: config.glow ?? 'transparent'
           }
         ]}
       >
@@ -93,8 +109,20 @@ export default function TitleCard({ title, onPress }: Props) {
           contentFit='cover'
           transition={200}
         />
+        <Animated.View
+          style={[
+            // position: 'absolute',
+            // inset: 0,
+            // ===
+            StyleSheet.absoluteFill,
+            animatedGlow,
+            {
+              borderRadius: config.radius,
+            }
+          ]}
+        />
 
-        {config.spine && (
+        {/*{config.spine && (
           <>
             <LinearGradient
               colors={[
@@ -108,13 +136,17 @@ export default function TitleCard({ title, onPress }: Props) {
             />
             <View style={styles.pages} />
           </>
-        )}
+        )}*/}
 
-        <View style={styles.badge}>
+        <View
+          style={[
+            styles.badge,
+          ]}
+        >
           {isGlassEffectAPIAvailable() ? (
             <GlassView
               style={styles.glass}
-              glassEffectStyle='clear'
+              glassEffectStyle='regular'
             >
               <config.icon
                 size={13}
@@ -123,8 +155,16 @@ export default function TitleCard({ title, onPress }: Props) {
               />
             </GlassView>
           ) : (
-            <View style={[styles.glass, styles.fallback]}>
-              <config.icon
+              <View
+                style={[
+                  styles.glass,
+                  // styles.fallback,
+                  {
+                    backgroundColor: colors.accent[title.type]
+                  }
+                ]}
+              >
+                <config.icon
                 size={13}
                 color={colors.text.primary}
                 strokeWidth={2.2}
@@ -176,7 +216,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.full,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)', // базове тонке кільце, скрізь однакове
+    boxShadow: [
+      {
+        offsetX: 0, offsetY: 0, blurRadius: 3, spreadDistance: 1,
+        color: 'rgba(0, 0, 0, 0.35)',
+        inset: true,
+      }
+    ],
   },
-  fallback: { backgroundColor: 'rgba(0,0,0,0.45)' }
+  // fallback: { backgroundColor: 'rgba(0,0,0,0.45)' }
 })

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: space[5]
+    paddingHorizontal: space['layout-horizontal']
   },
   logo: {
     color: colors.text.primary,

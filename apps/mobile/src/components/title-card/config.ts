@@ -36,16 +36,16 @@ export const CARD_CONFIG: Record<TitleListItemResponseType, ICardConfig> = {
     glow: 'rgba(129, 65, 248, 0.6)',
   },
   BOOK: {
-    width: 124,
-    height: 180,
-    radius: radius.sm,
+    width: 132,
+    height: 198,
+    radius: radius.md,
     icon: BookOpen,
     spine: true,
   },
   GAME: {
-    width: 156,
-    height: 208,
-    radius: radius.lg,
+    width: 132,
+    height: 198,
+    radius: radius.md,
     icon: Gamepad2,
   },
 }

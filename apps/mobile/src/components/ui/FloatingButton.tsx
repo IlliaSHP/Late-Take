@@ -23,7 +23,9 @@ export default function FloatingButton({
   const position = [
     styles.root,
     { top: insets.top + space[2] },
-    side === 'left' ? { left: space[4] } : { right: space[4] }
+    side === 'left'
+      ? { left: space['layout-horizontal'] }
+      : { right: space['layout-horizontal'] }
   ]
 
   const content = (
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     overflow: 'hidden',
-    borderRadius: radius.full,
+    borderRadius: radius.full
     // borderWidth: 2,
     // borderColor: 'red',
     // borderStyle: 'solid'

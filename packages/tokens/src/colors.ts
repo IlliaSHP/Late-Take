@@ -15,8 +15,15 @@ export const colors = {
   border: '#171717',
   select: 'rgba(129, 65, 248, 0.14)',
   status: {
-    success: '#8141F8',
+    success: '#34D399',
     warning: '#F6A290',
     error: '#FF3F15'
+  },
+  accent: {
+    MOVIE: '#F5A623',
+    TV_SHOW: '#38BDF8',
+    ANIME: '#8241F8',
+    BOOK: '#5B8C5A',
+    GAME: '#4361EE'
   }
 } as const

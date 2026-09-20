@@ -8,7 +8,8 @@ export const space = {
   7: 28,
   8: 32,
   9: 36,
-  10: 40
+  10: 40,
+  'layout-horizontal': 12
 } as const
 
 export const radius = {

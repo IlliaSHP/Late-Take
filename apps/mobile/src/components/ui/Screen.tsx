@@ -48,7 +48,6 @@ export function Screen({ children, edges = ['top'] }: Props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: colors.bg.base,
-    paddingHorizontal: space[6]
+    backgroundColor: colors.bg.base
   }
 })
