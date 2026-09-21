@@ -34,15 +34,14 @@ export default function TitleCard({ title, onPress }: Props) {
     boxShadow: [{
       offsetX: 0,
       offsetY: 0,
-      blurRadius: glow.get(),          // ← ось тут анімоване значення
+      blurRadius: glow.get(),
       spreadDistance: 0,
-      color: colors.accent[title.type], // ← а це лишається статичним, як є
+      color: colors.accent[title.type],
       inset: true,
     }]
   }))
 
   const handlePressIn = () => {
-    // scale.set(withSpring(0.95))
     scale.set(withSpring(0.94, { stiffness: 1300 }))
     glow.set(withSpring(8))
   }
@@ -55,10 +54,8 @@ export default function TitleCard({ title, onPress }: Props) {
   return (
     <View
       style={{
-        width: config.width,
-        height: config.height
-        // width: 114,
-        // height: 171
+        width: 114,
+        height: 171
       }}
     >
       {config.stacked && (

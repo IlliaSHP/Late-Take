@@ -3,18 +3,19 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Play, Plus } from 'lucide-react-native'
 import { useState } from 'react'
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
   useWindowDimensions
 } from 'react-native'
 
-import { colors, fontSize, fontWeight, radius, space } from '@app/tokens'
+import { colors, fontSize, fontWeight, space } from '@app/tokens'
 
 import type { TitleListItemResponse } from '@app/api'
 
 import Button from '../ui/Button'
+import PaginationDot from './PaginationDot'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 
 interface Props {
   items: TitleListItemResponse[]
@@ -29,15 +30,23 @@ export default function HomeHeroSlider({ items }: Props) {
   const height = width * 1.35
   const current = items[index]
 
+  const scrollX = useSharedValue(0)
+
+  const scrollHandler = useAnimatedScrollHandler(e => {
+    scrollX.set(e.contentOffset.x)
+  })
+
   return (
     <View style={{ height: height}}>
-      <ScrollView
+      <Animated.ScrollView
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={e => {
           setIndex(Math.round(e.nativeEvent.contentOffset.x / width))
         }}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         // style={StyleSheet.absoluteFill}
       >
         {items.map(item => (
@@ -49,7 +58,7 @@ export default function HomeHeroSlider({ items }: Props) {
             transition={300}
           />
         ))}
-      </ScrollView>
+      </Animated.ScrollView>
       <LinearGradient
         colors={['rgba(2,0,3,0.7)', 'transparent', 'rgba(2,0,3,0.9)', colors.bg.base]}
         locations={[0, 0.35, 0.75, 1]}
@@ -89,26 +98,14 @@ export default function HomeHeroSlider({ items }: Props) {
             />
           </View>
           <View style={[shared.actionsDots, styles.dots]}>
-            {items.map((_, i) => {
-              const distance = Math.abs(i - index)
-              const size = Math.max(4, 9 - distance)
-                
-              return (
-                <View
-                  key={i}
-                  style={[
-                    styles.dot,
-                    {
-                      width: size,
-                      height: size,
-                      borderRadius: size / 2
-                    },
-                    i === index && styles.dotActive
-                  ]}
-                />
-              )}
-              )
-            }
+            {items.map((item, index) => (
+              <PaginationDot
+                key={item.id}
+                index={index}
+                width={width}
+                scrollX={scrollX}
+              />
+            ))}
           </View>
         </View>
       </View>

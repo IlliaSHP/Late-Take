@@ -89,6 +89,70 @@ Animated.View
 Обгортку роблять на рівні модуля, а не всередині функції компонента — так само, як з класами чи функціями, які варто виносити за межі компонента, щоб не створювати нове посилання щорендеру.
  
 ---
+
+## `useAnimatedScrollHandler`
+
+Хук з Reanimated, який перетворює обробник події скролу на **воркліт**, що виконується напряму на UI-потоці, а не на JS-потоці.
+
+### Навіщо потрібен
+
+Подія скролу стріляє дуже часто (потенційно щокадру). Якби кожен виклик обробника мав перестрибувати міст JS↔UI туди-назад (як зі звичайним `onScroll` з react-native), це створювало б затримку — анімації, прив'язані до позиції скролу (paralax, fade-in хедера, зміна розміру елементів), відставали б від реального руху пальця.
+
+`useAnimatedScrollHandler` дозволяє прочитати `contentOffset` і записати його в `SharedValue` **без жодного походу на JS-потік узагалі** — тому анімація лишається синхронною з жестом.
+
+### Сигнатура і базове використання
+
+```tsx
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
+
+const scrollY = useSharedValue(0)
+
+const scrollHandler = useAnimatedScrollHandler(e => {
+  scrollY.set(e.contentOffset.y)
+})
+
+<Animated.ScrollView
+  onScroll={scrollHandler}
+  scrollEventThrottle={16}
+>
+  {/* content */}
+</Animated.ScrollView>
+```
+
+### Важливі нюанси
+
+- **Потрібен саме `Animated.ScrollView`** (з `react-native-reanimated`), а не звичайний `ScrollView` з `react-native`. Тільки реанімований `ScrollView` вміє підключити UI-thread-обробник напряму до нативної події скролу.
+- **`scrollEventThrottle={16}` все одно обов'язковий**, навіть з Reanimated. Це старіший, "долегасі" проп з react-native, який контролює, **як часто нативний рушій взагалі надсилає подію скролу** — незалежно від того, який потік її обробляє. `16` мс ≈ 60fps. Без нього iOS за замовчуванням шле події скролу занадто рідко, і навіть швидкий UI-thread-обробник не врятує — подія просто фізично не прийде вчасно.
+  - Підсумок розділення відповідальності: `scrollEventThrottle` — частота самої події; `useAnimatedScrollHandler` — на якому потоці ця подія обробляється.
+- Замість одного колбека можна передати об'єкт з кількома обробниками для різних фаз скролу:
+  ```tsx
+  useAnimatedScrollHandler({
+    onScroll: e => { scrollY.set(e.contentOffset.y) },
+    onBeginDrag: e => { /* ... */ },
+    onEndDrag: e => { /* ... */ },
+    onMomentumBegin: e => { /* ... */ },
+    onMomentumEnd: e => { /* ... */ }
+  })
+  ```
+
+### Приклад з практики — fade-in blur хедера
+
+```tsx
+const scrollY = useSharedValue(0)
+
+const scrollHandler = useAnimatedScrollHandler(e => {
+  scrollY.set(e.contentOffset.y)
+})
+
+// в іншому компоненті (HomeHeader), той самий scrollY переданий пропом:
+const blurStyle = useAnimatedStyle(() => ({
+  opacity: interpolate(scrollY.get(), [0, 120], [0, 1], 'clamp')
+}))
+```
+
+Скрол оновлює `scrollY` на UI-потоці → `useAnimatedStyle` в іншому компоненті автоматично перераховується, бо читає той самий shared value → `interpolate` перетворює позицію скролу (0–120px) на opacity (0–1) з `'clamp'`, щоб значення не виходило за межі `[0, 1]` при овершут-скролі.
+
+---
  
 ## withSpring
 
