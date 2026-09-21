@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
   logo: {
     color: colors.text.primary,
     fontSize: fontSize['2xl'],
-    fontWeight: fontWeight.bold
+    fontWeight: fontWeight.bold,
+    textShadowOffset: {height: 3, width: 2},
+    textShadowRadius: 3,
+    textShadowColor: 'rgba(0,0,0,0.25)'
   }
 })

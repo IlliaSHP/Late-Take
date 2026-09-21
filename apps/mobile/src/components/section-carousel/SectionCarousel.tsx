@@ -17,7 +17,7 @@ export default function SectionCarousel({ title, onPressArrow, children }: Props
         disabled={!onPressArrow}
       >
         <Text style={styles.title}>{title}</Text>
-        {!!onPressArrow && <ChevronRight size={22} color={colors.text.primary} />}
+        {!!onPressArrow && <ChevronRight size={24} color={colors.text.primary} />}
       </Pressable>
 
       <ScrollView
@@ -38,11 +38,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: space['layout-horizontal']
+    marginHorizontal: space['layout-horizontal'],
+    marginBottom: space[2]
   },
   title: {
     color: colors.text.primary,
-    fontSize: fontSize.xl,
+    fontSize: fontSize.lg,
     fontWeight: fontWeight.semibold
   },
   scroll: {paddingHorizontal: space['layout-horizontal'], gap: space[3]}

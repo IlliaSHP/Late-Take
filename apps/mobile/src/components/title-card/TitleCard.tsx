@@ -55,10 +55,10 @@ export default function TitleCard({ title, onPress }: Props) {
   return (
     <View
       style={{
-        // width: config.width,
-        // height: config.height
-        width: 132,
-        height: 198
+        width: config.width,
+        height: config.height
+        // width: 114,
+        // height: 171
       }}
     >
       {config.stacked && (

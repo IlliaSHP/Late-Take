@@ -9,6 +9,7 @@ export const space = {
   8: 32,
   9: 36,
   10: 40,
+  20: 80,
   'layout-horizontal': 12
 } as const
 

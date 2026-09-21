@@ -6,7 +6,6 @@ export default function TabsLayout() {
   return (
     <NativeTabs
       backBehavior='history'
-      minimizeBehavior='onScrollDown'
       tintColor={colors.text.primary}
       iconColor={{
         default: colors.text['little-muted'],

@@ -4,6 +4,9 @@ import HomeHeader from '@/components/HomeHeader'
 import HomeHeroSlider from '@/components/home/HomeHeroSlider'
 import SectionCarousel from '@/components/section-carousel/SectionCarousel'
 import TitleCard from '@/components/title-card/TitleCard'
+import { ScrollView, Platform } from 'react-native'
+import { space } from '@app/tokens'
+import { Screen } from '@/components/ui/Screen'
 
 export const SAMPLE_TITLES: TitleListItemResponse[] = [
   {
@@ -65,28 +68,40 @@ export const SAMPLE_TITLES: TitleListItemResponse[] = [
 export default function Index() {
   return (
     <>
-      <HomeHeader />
-      <HomeHeroSlider items={SAMPLE_TITLES} />
-
-      <SectionCarousel title='Top picks for you'>
-        {SAMPLE_TITLES.map(title => (
-          <TitleCard
-            onPress={() => {}}
-            title={title}
-            key={title.id}
-          />
-        ))}
-      </SectionCarousel>
-      <SectionCarousel title='Popular now'>
-        {SAMPLE_TITLES.map(title => (
-          <TitleCard
-            onPress={() => {}}
-            title={title}
-            key={title.id}
-          />
-        ))}
-      </SectionCarousel>
-
+      <Screen edges={[]}>
+        <HomeHeader />
+  
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: Platform.OS === 'android' ? space[10] : space[20]}}
+        >
+          
+          <HomeHeroSlider items={SAMPLE_TITLES} />
+    
+          <SectionCarousel title='Top picks for you'
+            onPressArrow={() => {}}
+          >
+            {SAMPLE_TITLES.map(title => (
+              <TitleCard
+                onPress={() => {}}
+                title={title}
+                key={title.id}
+              />
+            ))}
+          </SectionCarousel>
+          <SectionCarousel title='Popular now'
+            onPressArrow={() => {}}
+          >
+            {SAMPLE_TITLES.map(title => (
+              <TitleCard
+                onPress={() => {}}
+                title={title}
+                key={title.id}
+              />
+            ))}
+          </SectionCarousel>
+        </ScrollView>
+      </Screen>
       {/*
 
       Slider (continue "watching")

@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { colors, space } from '@app/tokens'
+import { colors } from '@app/tokens'
 
 interface Props {
   // children: React.ReactNode
@@ -11,6 +11,14 @@ interface Props {
 }
 
 export function Screen({ children, edges = ['top'] }: Props) {
+  // On iPhone, SafeAreaView still adds 
+  // safe-area padding even when edges={[]}
+  if (edges.length === 0) {
+    return (
+      <View style={styles.root}>{children}</View>
+    )
+  }
+  
   return (
     <SafeAreaView
       style={styles.root}
