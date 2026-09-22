@@ -3,7 +3,9 @@ packages:
   - 'packages/*'
 
 allowBuilds:
+  dtrace-provider: true
   esbuild: true
+  protobufjs: true
   unrs-resolver: false
 
 linkWorkspacePackages: true

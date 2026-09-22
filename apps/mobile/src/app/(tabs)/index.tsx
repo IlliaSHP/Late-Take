@@ -1,13 +1,21 @@
+import { BlurTargetView } from 'expo-blur'
+import { useEffect, useRef } from 'react'
+import type { View } from 'react-native'
+import { Platform } from 'react-native'
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue
+} from 'react-native-reanimated'
+
+import { space } from '@app/tokens'
+
 import type { TitleListItemResponse } from '@app/api'
 
 import HomeHeader from '@/components/home/HomeHeader'
 import HomeHeroSlider from '@/components/home/HomeHeroSlider'
 import SectionCarousel from '@/components/section-carousel/SectionCarousel'
 import TitleCard from '@/components/title-card/TitleCard'
-import { Platform } from 'react-native'
-import { space } from '@app/tokens'
 import { Screen } from '@/components/ui/Screen'
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 
 export const SAMPLE_TITLES: TitleListItemResponse[] = [
   {
@@ -67,50 +75,61 @@ export const SAMPLE_TITLES: TitleListItemResponse[] = [
 ]
 
 export default function Index() {
+  useEffect(() => {}, [])
+  const blurTargetRef = useRef<View>(null)
 
   const scrollY = useSharedValue(0)
 
   const scrollHandler = useAnimatedScrollHandler(e => {
     scrollY.set(e.contentOffset.y)
   })
-  
+
   return (
     <>
       <Screen edges={[]}>
-        <HomeHeader scrollY={scrollY}/>
-  
-        <Animated.ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: Platform.OS === 'android' ? space[10] : space[20] }}
-          onScroll={scrollHandler} /* UI thread */
-          scrollEventThrottle={16} /* 1000ms/16 === 60 per sec === 60fps */
-        >
-          
-          <HomeHeroSlider items={SAMPLE_TITLES} />
-    
-          <SectionCarousel title='Top picks for you'
-            onPressArrow={() => {}}
+        
+        <BlurTargetView ref={blurTargetRef}>
+          <Animated.ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: Platform.OS === 'android' ? space[10] : space[20]
+            }}
+            onScroll={scrollHandler} /* UI thread */
+            scrollEventThrottle={16} /* 1000ms/16 === 60 per sec === 60fps */
           >
-            {SAMPLE_TITLES.map(title => (
-              <TitleCard
-                onPress={() => {}}
-                title={title}
-                key={title.id}
-              />
-            ))}
-          </SectionCarousel>
-          <SectionCarousel title='Popular now'
-            onPressArrow={() => {}}
-          >
-            {SAMPLE_TITLES.map(title => (
-              <TitleCard
-                onPress={() => {}}
-                title={title}
-                key={title.id}
-              />
-            ))}
-          </SectionCarousel>
-        </Animated.ScrollView>
+            <HomeHeroSlider items={SAMPLE_TITLES} />
+
+            <SectionCarousel
+              title='Top picks for you'
+              onPressArrow={() => {}}
+            >
+              {SAMPLE_TITLES.map(title => (
+                <TitleCard
+                  onPress={() => {}}
+                  title={title}
+                  key={title.id}
+                />
+              ))}
+            </SectionCarousel>
+            <SectionCarousel
+              title='Popular now'
+              onPressArrow={() => {}}
+            >
+              {SAMPLE_TITLES.map(title => (
+                <TitleCard
+                  onPress={() => {}}
+                  title={title}
+                  key={title.id}
+                />
+              ))}
+            </SectionCarousel>
+          </Animated.ScrollView>
+        </BlurTargetView>
+        <HomeHeader
+          scrollY={scrollY}
+          blurTargetRef={blurTargetRef}
+        />
+
       </Screen>
       {/*
 

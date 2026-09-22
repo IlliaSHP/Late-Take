@@ -1,43 +1,78 @@
-import { Bell } from 'lucide-react-native'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BlurView } from 'expo-blur'
+import { Bell } from 'lucide-react-native'
+import type { RefObject } from 'react'
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import Animated, {
+  type SharedValue,
+  interpolate,
+  useAnimatedStyle
+} from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { colors, fontSize, fontWeight, space } from '@app/tokens'
-import Animated, { interpolate, useAnimatedStyle, type SharedValue } from 'react-native-reanimated'
+import { LinearGradient } from 'expo-linear-gradient'
+import MaskedView from '@react-native-masked-view/masked-view'
 
-export default function HomeHeader({scrollY}: {scrollY: SharedValue<number>}) {
+interface Props {
+  scrollY: SharedValue<number>
+  blurTargetRef: RefObject<View | null>
+}
+
+export default function HomeHeader({ scrollY, blurTargetRef}:Props) {
   const insets = useSafeAreaInsets()
 
   const blurStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(scrollY.get(), [0, 90], [0,1], 'clamp')
+    opacity: interpolate(scrollY.get(), [0, 70], [0, 1], 'clamp')
   }))
 
-  // TODO: on Android, BlurView currently renders as a plain
-  // semi-transparent block (fallback), not a real blur.
-  // Enable via blurMethod='dimezisBlurViewSdk31Plus' + wrap the
-  // scroll content in BlurTargetView, pass the ref via blurTarget.
+  // "Platform.Version >= 31" -> Android 12+
+  const hasRealBlur = Platform.OS === 'ios' || (Platform.OS === 'android' && Platform.Version >= 31)
+
   return (
-    <View style={styles.root} pointerEvents='box-none'>
+    <View
+      style={styles.root}
+      pointerEvents='box-none'
+    >
       <Animated.View
         pointerEvents='none'
         style={[StyleSheet.absoluteFill, blurStyle]}
       >
-        <BlurView
-          intensity={80}
-          tint='systemChromeMaterialDark'
-          style={[StyleSheet.absoluteFill]}
-        />
+        {hasRealBlur ? (
+          <MaskedView
+            style={StyleSheet.absoluteFill}
+            maskElement={
+              <LinearGradient
+                colors={['white', 'white', 'transparent']}
+                locations={[0, 0.8, 1]}
+                style={StyleSheet.absoluteFill}
+              />
+            }
+          >
+            <BlurView
+              intensity={40}
+              tint='systemChromeMaterialDark'
+              style={[StyleSheet.absoluteFill]}
+              blurTarget={blurTargetRef}
+              blurMethod='dimezisBlurViewSdk31Plus'
+            />
+            <LinearGradient
+              colors={['rgba(0,0,0,0.65)', 'rgba(0,0,0,0.4)', 'transparent']}
+              locations={[0, 0.5, 1]}
+              style={StyleSheet.absoluteFill}
+            />
+          </MaskedView>
+        ) : (
+          <View style={styles.overlay} />
+        )}
 
-        <View style={styles.overlay} />
       </Animated.View>
-        <View style={[styles.inner, { paddingTop: insets.top }]}>
-          <Text style={styles.logo}>Late Take</Text>
-    
-          <Pressable hitSlop={12}>
-            <Bell color={colors.text.primary} />
-          </Pressable>
-        </View>
+      <View style={[styles.inner, { paddingTop: insets.top }]}>
+        <Text style={styles.logo}>Late Take</Text>
+
+        <Pressable hitSlop={12}>
+          <Bell color={colors.text.primary} />
+        </Pressable>
+      </View>
     </View>
   )
 }
@@ -48,7 +83,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    // minHeight: 80
   },
   overlay: {
     position: 'absolute',
@@ -60,13 +96,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: space['layout-horizontal'],
-    paddingBottom: space[4]
+    paddingBottom: space[8]
   },
   logo: {
     color: colors.text.primary,
     fontSize: fontSize['2xl'],
     fontWeight: fontWeight.bold,
-    textShadowOffset: {height: 3, width: 2},
+    textShadowOffset: { height: 3, width: 2 },
     textShadowRadius: 3,
     textShadowColor: 'rgba(0,0,0,0.25)'
   }
