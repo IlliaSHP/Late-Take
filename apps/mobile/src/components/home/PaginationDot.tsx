@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated'
 
 import { colors, radius } from '@app/tokens'
+import { getPageInputRange } from '@/lib/animation'
 
 interface PaginationDotProps {
   index: number
@@ -20,10 +21,9 @@ export default function PaginationDot({
   scrollX
 }: PaginationDotProps) {
   const animatedStyle = useAnimatedStyle(() => {
-    const inputRange = [(index - 1) * width, index * width, (index + 1) * width]
+    const inputRange = getPageInputRange(index, width)
 
     return {
-      //! {}
       width: interpolate(
         scrollX.get(),
         inputRange,

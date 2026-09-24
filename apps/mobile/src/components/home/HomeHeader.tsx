@@ -22,7 +22,7 @@ export default function HomeHeader({ scrollY, blurTargetRef}:Props) {
   const insets = useSafeAreaInsets()
 
   const blurStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(scrollY.get(), [0, 70], [0, 1], 'clamp')
+    opacity: interpolate(scrollY.get(), [0, 90], [0, 1], 'clamp')
   }))
 
   // "Platform.Version >= 31" -> Android 12+
@@ -49,7 +49,7 @@ export default function HomeHeader({ scrollY, blurTargetRef}:Props) {
             }
           >
             <BlurView
-              intensity={40}
+              intensity={50}
               tint='systemChromeMaterialDark'
               style={[StyleSheet.absoluteFill]}
               blurTarget={blurTargetRef}

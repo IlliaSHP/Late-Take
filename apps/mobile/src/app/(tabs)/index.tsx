@@ -80,6 +80,7 @@ export default function Index() {
 
   const scrollY = useSharedValue(0)
 
+  /* UI thread */
   const scrollHandler = useAnimatedScrollHandler(e => {
     scrollY.set(e.contentOffset.y)
   })
@@ -94,7 +95,7 @@ export default function Index() {
             contentContainerStyle={{
               paddingBottom: Platform.OS === 'android' ? space[10] : space[20]
             }}
-            onScroll={scrollHandler} /* UI thread */
+            onScroll={scrollHandler}
             scrollEventThrottle={16} /* 1000ms/16 === 60 per sec === 60fps */
           >
             <HomeHeroSlider items={SAMPLE_TITLES} />
