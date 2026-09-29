@@ -10,3 +10,5 @@ export const clearTokens = async () => {
   await SecureStore.deleteItemAsync(ACCESS_TOKEN)
   await SecureStore.deleteItemAsync(REFRESH_TOKEN)
 }
+
+export const getRefreshToken = async() => await SecureStore.getItemAsync(REFRESH_TOKEN)

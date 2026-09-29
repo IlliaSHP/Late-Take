@@ -1,3 +1,18 @@
+// Dev-only request/response logging.
+// When the app runs in Expo Go on Android, React Native DevTools can't inspect network
+// traffic ("multiple React Native hosts" limitation). On macOS this is usually solved with
+// the iOS Simulator, which isn't available on Windows, so without a development build
+// there is no built-in Network tab.
+// Reactotron shows a request only after a response arrives, so requests that never reach
+// the server are invisible there. These logs show every outgoing request and its result.
+// __DEV__ is a React Native global: declared here because this package has no RN types,
+// and checked with typeof so the helper doesn't crash outside React Native.
+declare const __DEV__: boolean | undefined
+
+const devLog = (...args: unknown[]) => {
+  if (typeof __DEV__ !== 'undefined' && __DEV__) console.log(...args)
+}
+
 let getToken: () => Promise<string | null> = async () => null
 let baseUrl = ''
 
@@ -22,9 +37,15 @@ export class ApiError extends Error {
 // We use fetch instead of Axios because fetch is supported across all platforms without compatibility issues.
 
 export const http = async <T>(url: string, init?: RequestInit): Promise<T> => {
+  if (!baseUrl) throw new Error('API is not configured. Please call configureApi()')
+  
+  
   const token = await getToken()
+  const fullUrl = `${baseUrl}${url}`
 
-  const response = await fetch(`${baseUrl}/${url}`, {
+  devLog('→ HTTP', init?.method ?? 'GET', fullUrl, init?.body)
+
+  const response = await fetch(fullUrl, {
     ...init,
     headers: {
       ...(init?.headers || {}),
@@ -34,15 +55,20 @@ export const http = async <T>(url: string, init?: RequestInit): Promise<T> => {
 
   if (!response.ok) {
     const body = await response.json().catch(() => null)
+    devLog('← HTTP', response.status, fullUrl, body)
     const raw = body?.message ?? response.statusText
     throw new ApiError(response.status, Array.isArray(raw) ? raw : [raw])
   }
 
   if (response.status === 204) {
-    return undefined as T
+    // return undefined as T
+    return {data: undefined, status: response.status, headers: response.headers} as T
   }
 
-  return response.json()
+  const data = await response.json()
+  devLog('← HTTP', response.status, fullUrl, data)
+  return { data, status: response.status, headers: response.headers } as T
+  // return data
 }
 
 // RequestInit

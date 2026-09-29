@@ -3,6 +3,9 @@ import { DarkTheme, Stack, ThemeProvider } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import '@/lib/api'
+import '@/lib/reactotron'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
