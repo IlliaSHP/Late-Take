@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import type { RegisterDto } from '@app/api'
 
 export const authSchema = z.object({

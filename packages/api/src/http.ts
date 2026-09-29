@@ -60,15 +60,10 @@ export const http = async <T>(url: string, init?: RequestInit): Promise<T> => {
     throw new ApiError(response.status, Array.isArray(raw) ? raw : [raw])
   }
 
-  if (response.status === 204) {
-    // return undefined as T
-    return {data: undefined, status: response.status, headers: response.headers} as T
-  }
+  const data = response.status === 204 ? undefined : await response.json()
 
-  const data = await response.json()
   devLog('← HTTP', response.status, fullUrl, data)
   return { data, status: response.status, headers: response.headers } as T
-  // return data
 }
 
 // RequestInit

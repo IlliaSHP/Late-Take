@@ -6,7 +6,7 @@ import { colors } from '@app/tokens'
 
 interface Props {
   // children: React.ReactNode
-  children: ReactNode
+  children?: ReactNode
   edges?: ('top' | 'bottom')[]
 }
 
