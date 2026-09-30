@@ -12,3 +12,4 @@ export const clearTokens = async () => {
 }
 
 export const getRefreshToken = async() => await SecureStore.getItemAsync(REFRESH_TOKEN)
+export const getAccessToken = async() => await SecureStore.getItemAsync(ACCESS_TOKEN)

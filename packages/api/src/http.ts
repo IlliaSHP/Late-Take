@@ -14,17 +14,22 @@ const devLog = (...args: unknown[]) => {
 }
 
 let getToken: () => Promise<string | null> = async () => null
+let onRefresh: (() => Promise<boolean>) | null = null
+let onUnauthorized: (() => void) | null = null
 let baseUrl = ''
 
 export const configureApi = (options: {
   baseUrl: string
   getToken: () => Promise<string | null>
+  onRefresh?: () => Promise<boolean>
+  onUnauthorized?: () => void
 }) => {
   baseUrl = options.baseUrl
   getToken = options.getToken
+  onRefresh = options.onRefresh ?? null
+  onUnauthorized = options.onUnauthorized ?? null
 }
 
-// Shorthand using TypeScript parameter properties
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -34,24 +39,45 @@ export class ApiError extends Error {
   }
 }
 
+let refreshPromise: Promise<boolean> | null = null
+
 // We use fetch instead of Axios because fetch is supported across all platforms without compatibility issues.
 
-export const http = async <T>(url: string, init?: RequestInit): Promise<T> => {
-  if (!baseUrl) throw new Error('API is not configured. Please call configureApi()')
-  
-  
+const request = async (fullUrl: string, init?: RequestInit) => {
   const token = await getToken()
-  const fullUrl = `${baseUrl}${url}`
 
   devLog('→ HTTP', init?.method ?? 'GET', fullUrl, init?.body)
 
-  const response = await fetch(fullUrl, {
+  return fetch(fullUrl, {
     ...init,
     headers: {
       ...(init?.headers || {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {})
     }
   })
+}
+
+export const http = async <T>(url: string, init?: RequestInit): Promise<T> => {
+  if (!baseUrl) throw new Error('API is not configured. Please call configureApi()')
+  const fullUrl = `${baseUrl}${url}`
+
+  let response = await request(fullUrl, init)
+
+  if (response.status === 401 && onRefresh && !url.includes('/auth')) {
+    if (!refreshPromise) {
+      refreshPromise = onRefresh().finally(() => {
+        refreshPromise = null
+      })
+    }
+    
+    const isRefreshed = await refreshPromise
+
+    if (isRefreshed) {
+      response = await request(fullUrl, init)
+    } else {
+      onUnauthorized?.()
+    }
+  }
 
   if (!response.ok) {
     const body = await response.json().catch(() => null)

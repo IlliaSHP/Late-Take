@@ -5,15 +5,18 @@ import { Text, View } from 'react-native'
 import { colors, fontSize, space } from '@app/tokens'
 
 import { useAuthMobileLogout, useUserFindMe } from '@app/api'
+import * as SecureStore from 'expo-secure-store'
 
 import Button from '@/components/ui/Button'
 import { Screen } from '@/components/ui/Screen'
 
 import { clearTokens, getRefreshToken } from '@/lib/token'
+import { ACCESS_TOKEN } from '@app/constants'
+import { TokenDebug } from '@/components/TokenDebug'
 
 export default function Profile() {
   const queryClient = useQueryClient()
-  const { data, isLoading, isError } = useUserFindMe()
+  const { data, isLoading, isError, refetch} = useUserFindMe()
 
   const { mutate: logout, isPending } = useAuthMobileLogout({
     mutation: {
@@ -47,6 +50,7 @@ export default function Profile() {
         >
           Sign out
         </Button>
+        {__DEV__ && <TokenDebug refetch={refetch} />}
       </View>
     </Screen>
   )
