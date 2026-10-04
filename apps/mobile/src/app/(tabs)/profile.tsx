@@ -1,22 +1,22 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Redirect, router } from 'expo-router'
-import { Text, View } from 'react-native'
+import { LogOut } from 'lucide-react-native'
+import { ScrollView } from 'react-native'
 
-import { colors, fontSize, space } from '@app/tokens'
+import { space } from '@app/tokens'
 
 import { useAuthMobileLogout, useUserFindMe } from '@app/api'
-import * as SecureStore from 'expo-secure-store'
 
-import Button from '@/components/ui/Button'
+import { ProfileHeader } from '@/components/profile/ProfieHeader'
+import { ProfileMenuItem } from '@/components/profile/ProfileMenuItem'
+import { PROFILE_MENU } from '@/components/profile/profile-menu.data'
 import { Screen } from '@/components/ui/Screen'
 
 import { clearTokens, getRefreshToken } from '@/lib/token'
-import { ACCESS_TOKEN } from '@app/constants'
-import { TokenDebug } from '@/components/TokenDebug'
 
 export default function Profile() {
   const queryClient = useQueryClient()
-  const { data, isLoading, isError, refetch} = useUserFindMe()
+  const { data, isLoading, isError } = useUserFindMe()
 
   const { mutate: logout, isPending } = useAuthMobileLogout({
     mutation: {
@@ -39,19 +39,32 @@ export default function Profile() {
   if (isError || !data) return <Redirect href='/login' />
 
   return (
-    <Screen>
-      <View style={{ padding: space['layout-horizontal'], gap: space[4] }}>
-        <Text style={{ color: colors.text.primary, fontSize: fontSize.xl }}>{data.data.email}</Text>
+    <Screen edges={[]}>
+      <ProfileHeader
+        name={data.data.username}
+        avatarUrl={data.data.profile?.avatarUrl || ''}
+      />
 
-        <Button
-          variant='secondary'
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ paddingHorizontal: space['layout-horizontal'] }}
+      >
+        {PROFILE_MENU.map((item) => (
+          <ProfileMenuItem
+            {...item}
+            key={item.label}
+          />
+        ))}
+
+        <ProfileMenuItem
+          icon={LogOut}
+          label={isPending ? 'Logging out...' : 'LogOut'}
           onPress={handleLogout}
-          isDisabled={isPending}
-        >
-          Sign out
-        </Button>
-        {__DEV__ && <TokenDebug refetch={refetch} />}
-      </View>
+          isLast
+        />
+
+        {/*{__DEV__ && <TokenDebug refetch={refetch} />}*/}
+      </ScrollView>
     </Screen>
   )
 }
