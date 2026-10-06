@@ -39,6 +39,6 @@ configureApi({
   },
   onUnauthorized: async () => {
     await clearTokens()
-    router.replace('/login')
+    // router.replace('/login')
   }
 })

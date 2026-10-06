@@ -6,8 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ActorResponse {
-  name: string;
-  /** @nullable */
-  photoUrl: string | null;
-}
+export type DiscoverGetTrendingParams = {
+/**
+ * @minimum 1
+ * @maximum 50
+ */
+take?: number;
+};

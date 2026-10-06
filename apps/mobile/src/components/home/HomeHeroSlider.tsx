@@ -10,7 +10,7 @@ import {
 
 import { colors, fontSize, fontWeight, space } from '@app/tokens'
 
-import type { TitleListItemResponse } from '@app/api'
+import type { DiscoverItemResponse } from '@app/api'
 
 import Button from '../ui/Button'
 import PaginationDot from './PaginationDot'
@@ -19,7 +19,7 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import HomeHeroSlide from './HomeHeroSlide'
 
 interface Props {
-  items: TitleListItemResponse[]
+  items: DiscoverItemResponse[]
 }
 
 export default function HomeHeroSlider({ items }: Props) {
@@ -51,7 +51,7 @@ export default function HomeHeroSlider({ items }: Props) {
       >
         {items.map((item, i) => (
           <HomeHeroSlide
-            key={item.id}
+            key={item.key}
             item={item}
             index={i}
             width={width}
@@ -69,7 +69,7 @@ export default function HomeHeroSlider({ items }: Props) {
 
       <View style={styles.content} pointerEvents='box-none'>
         <Animated.View
-          key={current?.id}
+          key={current?.key}
           entering={FadeIn.duration(400)}
           exiting={FadeOut.duration(200)}
           pointerEvents='none'
@@ -78,7 +78,13 @@ export default function HomeHeroSlider({ items }: Props) {
             {current?.name}
           </Text>
           
-          <Text style={styles.genres}>Thrillers · Dramas · Action · Chime</Text>
+          {current?.genres?.length ? (
+            <Text style={styles.genres}>
+              {current.genres.slice(0, 3).join(' · ')}
+            </Text>
+          ) : (
+            <Text style={styles.genres}>No genres available</Text>
+          )}
     
           <Text style={styles.description} numberOfLines={2}>
             When an overachieving college senior makes a wrong turn, her road trip
@@ -102,7 +108,7 @@ export default function HomeHeroSlider({ items }: Props) {
           <View style={[styles.actionsDots, styles.dots]}>
             {items.map((item, index) => (
               <PaginationDot
-                key={item.id}
+                key={item.key}
                 index={index}
                 width={width}
                 scrollX={scrollX}

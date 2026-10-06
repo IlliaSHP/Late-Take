@@ -1,12 +1,20 @@
 import { getPageInputRange } from "@/lib/animation"
-import type { TitleListItemResponse } from "@app/api"
+import type { DiscoverItemResponse } from "@app/api"
 import { colors } from "@app/tokens"
 import { Image } from "expo-image"
 import { StyleSheet, View } from "react-native"
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, type SharedValue } from "react-native-reanimated"
 
 interface Props {
-  item: TitleListItemResponse
+  /** 
+  * Pick створює новий тип об'єкта з вибраним полем,
+  * а тип значення бере з DiscoverItemResponse.
+  *
+  * @example
+  * // DiscoverItemResponse: { id: string; title: string; coverUrl: string | null; ... }
+  * // Pick<DiscoverItemResponse, 'coverUrl'> → { coverUrl: string | null }
+  */
+  item: Pick<DiscoverItemResponse, 'coverUrl'>
   index: number
   width: number
   height: number

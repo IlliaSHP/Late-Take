@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './actorResponse';
 export * from './aiSuggestionResponse';
 export * from './aiSuggestionResponseType';
 export * from './aiSuggestionsResponse';
@@ -26,10 +25,22 @@ export * from './createLibraryEntryDto';
 export * from './createLibraryEntryDtoProgressUnit';
 export * from './createLibraryEntryDtoStatus';
 export * from './createReviewDto';
+export * from './creatorResponse';
+export * from './creatorRole';
 export * from './deviceCodeDto';
 export * from './deviceCodeResponse';
 export * from './devicePollResponse';
 export * from './devicePollResponseStatus';
+export * from './discoverDetailsResponse';
+export * from './discoverDetailsResponseExternalSource';
+export * from './discoverDetailsResponseMetadata';
+export * from './discoverDetailsResponseType';
+export * from './discoverGetTrendingParams';
+export * from './discoverItemResponse';
+export * from './discoverItemResponseExternalSource';
+export * from './discoverItemResponseType';
+export * from './errorResponse';
+export * from './errorResponseMessage';
 export * from './externalTitleResponse';
 export * from './externalTitleResponseExternalSource';
 export * from './externalTitleResponseType';
@@ -63,6 +74,7 @@ export * from './notificationListResponse';
 export * from './notificationResponse';
 export * from './notificationResponseEntityType';
 export * from './notificationResponseType';
+export * from './personResponse';
 export * from './pickerDto';
 export * from './pickerDtoDuration';
 export * from './pickerDtoTypeItem';

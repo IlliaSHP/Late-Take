@@ -6,36 +6,32 @@
  * OpenAPI spec version: 1.0
  */
 import type { CreatorResponse } from './creatorResponse';
-import type { GenreResponse } from './genreResponse';
+import type { DiscoverDetailsResponseExternalSource } from './discoverDetailsResponseExternalSource';
+import type { DiscoverDetailsResponseMetadata } from './discoverDetailsResponseMetadata';
+import type { DiscoverDetailsResponseType } from './discoverDetailsResponseType';
+import type { DiscoverItemResponse } from './discoverItemResponse';
 import type { PersonResponse } from './personResponse';
-import type { TitleListItemResponse } from './titleListItemResponse';
-import type { TitleResponseMetadata } from './titleResponseMetadata';
-import type { TitleResponseStatus } from './titleResponseStatus';
-import type { TitleResponseType } from './titleResponseType';
 
-export interface TitleResponse {
-  id: string;
-  type: TitleResponseType;
+export interface DiscoverDetailsResponse {
+  /** Ключ для детальной страницы: `tmdb-movie-603`, `rawg-game-3328` */
+  key: string;
+  externalId: string;
+  externalSource: DiscoverDetailsResponseExternalSource;
+  type: DiscoverDetailsResponseType;
   name: string;
-  slug: string;
   /** @nullable */
   coverUrl: string | null;
   /** @nullable */
   releaseDate: string | null;
-  rating: number;
-  ratingCount: number;
-  status: TitleResponseStatus;
+  /** @nullable */
+  rating: number | null;
+  genres: string[];
   /** @nullable */
   originalName: string | null;
-  genres: GenreResponse[];
-  /** Похожие тайтлы — приходят вместе со страницей, отдельный запрос не нужен */
-  similar: TitleListItemResponse[];
-  createdAt: string;
-  /**
-     * Ниже — из внешнего API, в нашей базе не хранится
-     * @nullable
-     */
+  /** @nullable */
   description: string | null;
+  /** @nullable */
+  ratingCount: number | null;
   /**
      * PG-13, TV-MA, M, R-17+ — у каждого источника своя система
      * @nullable
@@ -46,5 +42,7 @@ export interface TitleResponse {
   /** Режиссёр, автор идеи сериала, студия игры или аниме, автор книги */
   creators: CreatorResponse[];
   /** Страницы книги, платформы игры, число серий */
-  metadata: TitleResponseMetadata;
+  metadata: DiscoverDetailsResponseMetadata;
+  /** «You may also like» — приходит вместе со страницей, отдельный запрос не нужен */
+  similar: DiscoverItemResponse[];
 }

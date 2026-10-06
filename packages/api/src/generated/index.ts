@@ -2,6 +2,7 @@ export * from './ai/ai';
 export * from './auth/auth';
 export * from './auth-mobile/auth-mobile';
 export * from './collections/collections';
+export * from './discover/discover';
 export * from './external/external';
 export * from './friends/friends';
 export * from './library/library';

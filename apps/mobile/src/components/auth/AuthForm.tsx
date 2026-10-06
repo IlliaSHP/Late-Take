@@ -14,6 +14,8 @@ import { ApiError } from '@app/api'
 import Button from '../ui/Button'
 import { Input } from '../ui/Input'
 import { Screen } from '../ui/Screen'
+import FloatingButton from '../ui/FloatingButton'
+import { ChevronLeft } from 'lucide-react-native'
 
 interface Props {
   type: keyof typeof AUTH_FORM_CONTENT
@@ -39,6 +41,14 @@ export function AuthForm({ error, isPending, onSubmit, type }: Props) {
 
   return (
     <Screen>
+      <FloatingButton
+        onPress={() => {
+          router.push('/')
+        }}
+        icon={ChevronLeft}
+        side='left'
+        iconOffset={-2}
+      />
       <View style={styles.root}>
         <View style={styles.center}>
           <Text style={styles.title}>{content.title}</Text>

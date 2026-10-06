@@ -13,7 +13,7 @@
     "ext": "pnpm --filter ext",
     "ts-check": "pnpm -r exec tsc --noEmit",
     "dev": "pnpm -r --parallel dev",
-    "back:dev": "cd ../back-end/r-m-back-end-version_3 && pnpm start:dev"
+    "back:dev": "cd ../back-end/r-m-back-end-version_4 && pnpm start:dev"
   },
   "keywords": [],
   "author": "",
