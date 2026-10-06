@@ -9,7 +9,7 @@ import Animated, {
 
 import { colors, radius, space } from '@app/tokens'
 
-import type { DiscoverItemResponse, TitleListItemResponse } from '@app/api'
+import type { DiscoverItemResponse } from '@app/api'
 
 import { CARD_CONFIG } from './config'
 

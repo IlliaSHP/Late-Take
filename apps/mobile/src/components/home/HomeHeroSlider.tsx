@@ -17,6 +17,8 @@ import PaginationDot from './PaginationDot'
 import Animated, { FadeIn, FadeOut, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import HomeHeroSlide from './HomeHeroSlide'
+import { TitleInfo } from '../hero/TitleInfo'
+import { router } from 'expo-router'
 
 interface Props {
   items: DiscoverItemResponse[]
@@ -74,28 +76,21 @@ export default function HomeHeroSlider({ items }: Props) {
           exiting={FadeOut.duration(200)}
           pointerEvents='none'
         >
-          <Text style={styles.name} numberOfLines={2}>
-            {current?.name}
-          </Text>
+          <TitleInfo
+            name={current?.name || ''}
+            meta={current?.genres?.slice(0, 3).join(' · ')}
+            description='When an overachieving college senior makes a wrong turn, her road trip
+            becomes a life-changing fight for...'
+          />
           
-          {current?.genres?.length ? (
-            <Text style={styles.genres}>
-              {current.genres.slice(0, 3).join(' · ')}
-            </Text>
-          ) : (
-            <Text style={styles.genres}>No genres available</Text>
-          )}
-    
-          <Text style={styles.description} numberOfLines={2}>
-            When an overachieving college senior makes a wrong turn, her road trip
-            becomes a life-changing fight for...
-          </Text>
         </Animated.View>
         <View style={styles.bottom} pointerEvents='box-none'>
           <View style={[styles.actionsDots, styles.actions]}>
             <Button
               icon={Play}
-              onPress={() => {}}
+              onPress={() => {
+                router.push(`/title/${current?.key}`)
+              }}
             >
               Watch Movie
             </Button>
