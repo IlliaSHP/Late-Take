@@ -1,0 +1,44 @@
+{/*
+  Header
+    Left side: Back button (arrow left)
+
+  Backdrop Image
+  Title
+
+  Meta line
+    RATING, age, year, duration, genre....
+
+  Description + AI summary btn no spoilers
+
+  Primary button
+    none      → [ + Add to library ]
+    want      → [ Start ]
+    progress  → [ Mark as done ]
+    done      → [ ✓ Done ] (not clickable)
+    dropped   → [ Dropped ]
+LONG PRESS
+    opens full list of actions (want, progress, done, dropped)
+
+  Details
+      Cast / Director / Author / Developer / Studio — depends on type
+
+  Actions
+    add to Watchlist, add to collection, to share ...
+
+  Similar titles (Carousel)
+
+  Reviews (possible add review button)
+*/}
+
+{/*
+  Header
+    Left side: Logo (naming)
+    Right side: Bell (notifications)
+  
+  Slider (continue "watching")
+    Buttons: Read more, Plus (to add wathlist)
+  
+  Top picks for you (Carousel)
+  
+  Popular (Carousel)
+*/}

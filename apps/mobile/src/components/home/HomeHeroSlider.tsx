@@ -3,7 +3,6 @@ import { Play, Plus } from 'lucide-react-native'
 import { useState } from 'react'
 import {
   StyleSheet,
-  Text,
   View,
   useWindowDimensions
 } from 'react-native'
@@ -19,6 +18,7 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import HomeHeroSlide from './HomeHeroSlide'
 import { TitleInfo } from '../hero/TitleInfo'
 import { router } from 'expo-router'
+import { HERO_GRADIENT } from '../hero/HeroBackdrop'
 
 interface Props {
   items: DiscoverItemResponse[]
@@ -63,8 +63,8 @@ export default function HomeHeroSlider({ items }: Props) {
         ))}
       </Animated.ScrollView>
       <LinearGradient
-        colors={['rgba(2,0,3,0.7)', 'transparent', 'rgba(2,0,3,0.9)', colors.bg.base]}
-        locations={[0, 0.35, 0.75, 1]}
+        colors={HERO_GRADIENT.colors}
+        locations={HERO_GRADIENT.locations}
         style={StyleSheet.absoluteFill}
         pointerEvents='none'
       />

@@ -79,12 +79,6 @@ export default function Index() {
         />
 
       </Screen>
-      {/*
-
-      Slider (continue "watching")
-        Buttons: Read more, Plus (to add watchlist)
-
-    */}
     </>
   )
 }
