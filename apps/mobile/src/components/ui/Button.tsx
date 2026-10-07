@@ -24,7 +24,7 @@ const ICON_SIZE: Record<TButtonSize, number> = {
   lg: 20
 }
 
-export default function Button({
+export function Button({
   children,
   variant = 'primary',
   size = 'md',

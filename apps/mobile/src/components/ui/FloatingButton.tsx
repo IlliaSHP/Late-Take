@@ -12,7 +12,7 @@ interface Props {
   iconOffset?: number
 }
 
-export default function FloatingButton({
+export function FloatingButton({
   icon: Icon,
   onPress,
   side,

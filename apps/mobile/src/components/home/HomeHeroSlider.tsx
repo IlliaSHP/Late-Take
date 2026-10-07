@@ -11,7 +11,7 @@ import { colors, fontSize, fontWeight, space } from '@app/tokens'
 
 import type { DiscoverItemResponse } from '@app/api'
 
-import Button from '../ui/Button'
+import { Button } from '../ui'
 import PaginationDot from './PaginationDot'
 import Animated, { FadeIn, FadeOut, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'

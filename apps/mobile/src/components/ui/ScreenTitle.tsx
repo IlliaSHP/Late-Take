@@ -7,7 +7,7 @@ interface Props {
   action?: React.ReactNode
 }
 
-export default function ScreenTitle({ children, action }: Props) {
+export function ScreenTitle({ children, action }: Props) {
   return (
     <View style={styles.root}>
       <Text style={styles.title}>{children}</Text>

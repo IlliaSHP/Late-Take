@@ -22,8 +22,8 @@ import { TitleInfo } from '@/components/hero/TitleInfo'
 import SectionCarousel from '@/components/section-carousel/SectionCarousel'
 import TitleCard from '@/components/title-card/TitleCard'
 import { ActionButton } from '@/components/ui/ActionButton'
-import Button from '@/components/ui/Button'
-import FloatingButton from '@/components/ui/FloatingButton'
+import { Button } from '@/components/ui/Button'
+import { FloatingButton } from '@/components/ui/FloatingButton'
 import { Screen } from '@/components/ui/Screen'
 import { CREATOR_ROLE_LABEL } from '@app/constants/src/role'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -173,7 +173,7 @@ export default function TitleDetail() {
           <ActionButton
             icon={Share}
             label='Share'
-            onPress={() => {}}
+            onPress={() => {router.push(`/share/${title.key}`)}}
           />
         </View>
         {!!title.similar.length && (

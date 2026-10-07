@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { colors, fontSize, radius, space } from '@app/tokens'
 
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 
 export function TokenDebug({ refetch }: {refetch?: () => void}) {
   const [access, setAccess] = useState<string | null>(null)

@@ -11,11 +11,10 @@ import { type TAuthForm, authSchema } from '@app/schemas'
 
 import { ApiError } from '@app/api'
 
-import Button from '../ui/Button'
 import { Input } from '../ui/Input'
 import { Screen } from '../ui/Screen'
-import FloatingButton from '../ui/FloatingButton'
 import { ChevronLeft } from 'lucide-react-native'
+import { Button, FloatingButton } from '../ui'
 
 interface Props {
   type: keyof typeof AUTH_FORM_CONTENT

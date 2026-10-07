@@ -1,6 +1,5 @@
+import { ScreenTitle } from '@/components/ui'
 import { Screen } from '@/components/ui/Screen'
-
-import ScreenTitle from '@/components/ui/ScreenTitle'
 
 export default function Library() {
   return (
