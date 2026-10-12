@@ -27,6 +27,7 @@ import { FloatingButton } from '@/components/ui/FloatingButton'
 import { Screen } from '@/components/ui/Screen'
 import { CREATOR_ROLE_LABEL } from '@app/constants/src/role'
 import { LinearGradient } from 'expo-linear-gradient'
+import { ReviewsSection } from '@/components/detail/reviews-section/ReviewsSection';
 
 const OVERLAP = space[20]
 
@@ -187,6 +188,8 @@ export default function TitleDetail() {
             ))}
           </SectionCarousel>
           )}
+
+          <ReviewsSection titleKey={title.key} />
         </View>
       </Animated.ScrollView>
     </Screen>

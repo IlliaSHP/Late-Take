@@ -1,7 +1,6 @@
 import * as SecureStore from 'expo-secure-store'
 import { configureApi } from '@app/api'
 import { clearTokens, getRefreshToken, saveTokens } from './token'
-import { router } from 'expo-router'
 import { authTokenSchema } from '@app/schemas'
 
 configureApi({

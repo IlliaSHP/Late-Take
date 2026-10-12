@@ -7,6 +7,7 @@
     "@app/constants": "workspace:^",
     "@app/tokens": "workspace:^",
     "@app/types": "workspace:^",
+    "@app/utils": "workspace:^",
     "@expo/ui": "~57.0.20",
     "@hookform/resolvers": "^5.9.1",
     "@react-native-masked-view/masked-view": "0.3.2",

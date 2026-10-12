@@ -187,21 +187,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border
   },
-  spine: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 10
-  },
-  pages: {
-    position: 'absolute',
-    right: 0,
-    top: 4,
-    bottom: 4,
-    width: 2,
-    backgroundColor: 'rgba(255, 255, 255, 0.18)'
-  },
   badge: {
     position: 'absolute',
     left: space[2],

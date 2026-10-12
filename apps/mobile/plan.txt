@@ -1,3 +1,10 @@
+SLIDER
+FORM REVIEW
+  hook to save review
+
+TEST
+
+
 TODO:
 PAGES (remaining from the initial design)
   0. Det.page revies + button

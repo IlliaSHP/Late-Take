@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { DarkTheme, Stack, ThemeProvider } from 'expo-router'
+import { DarkTheme, Stack, ThemeProvider, type NativeStackNavigationOptions } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -16,8 +16,18 @@ const queryClient = new QueryClient({
   }
 })
 
-export const unstable_settings = {
-  anchor: '(tabs)' // під шторкою/модалкою завжди лежать вкладки
+// export const unstable_settings = {
+//   anchor: '(tabs)' // під шторкою/модалкою завжди лежать вкладки
+// }
+
+// Sheet — це назва UI-компонента: панель, яка виїжджає знизу екрана поверх поточного вмісту. Українською її зазвичай називають «шторкою»
+const SHEET_OPTIONS:NativeStackNavigationOptions = {
+  presentation: 'formSheet', // шторка знизу, попередній екран видно позаду
+  // Висоти, на яких зупиняється шторка (частки екрана): відкривається на 60%, тягнеться до 100%.
+  // На відміну від 'fitToContents' (висота = вміст), не стрибає при відкритті клавіатури чи зміні Input.
+  sheetAllowedDetents: [0.6, 1],
+  sheetGrabberVisible: true,  // смужка-ручка зверху, щоб тягнути шторку вниз
+  contentStyle: {backgroundColor: colors.bg.base}  // фон з токенів замість фону теми
 }
 
 export default function RootLayout() {
@@ -34,14 +44,11 @@ export default function RootLayout() {
                 відкривається шторкою знизу поверх поточного екрана, а не окремою сторінкою */}
             <Stack.Screen
               name='share/[key]'
-              options={{
-                presentation: 'formSheet', // шторка знизу, попередній екран видно позаду
-                // Висоти, на яких зупиняється шторка (частки екрана): відкривається на 60%, тягнеться до 100%.
-                // На відміну від 'fitToContents' (висота = вміст), не стрибає при відкритті клавіатури чи зміні Input.
-                sheetAllowedDetents: [0.6, 1],
-                sheetGrabberVisible: true,  // смужка-ручка зверху, щоб тягнути шторку вниз
-                contentStyle: {backgroundColor: colors.bg.base}  // фон з токенів замість фону теми
-              }}
+              options={SHEET_OPTIONS}
+            />
+            <Stack.Screen
+              name='review/[key]'
+              options={SHEET_OPTIONS}
             />
           </Stack>
         </ThemeProvider>

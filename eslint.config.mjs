@@ -4,6 +4,7 @@ import globals from 'globals'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import reactNative from 'eslint-plugin-react-native'
 import ts from 'typescript-eslint'
 
 import extensionConfig from './eslint/extension.mjs'
@@ -30,6 +31,9 @@ export default defineConfig([
   // ===== COMMON: all TypeScript monorepo =====
   {
     files: ['**/*.{ts,tsx}'],
+    plugins: {
+      'react-native': reactNative
+    },
     extends: [
       js.configs.recommended,
       ts.configs.recommended,
@@ -59,6 +63,8 @@ export default defineConfig([
       eqeqeq: 'warn',
       curly: ['warn', 'multi-line'],
       'no-else-return': 'warn',
+
+      'react-native/no-unused-styles': 'warn', //warn на стилях які невикористовуються
     },
   },
   
@@ -98,5 +104,31 @@ export default defineConfig([
       'react/no-unescaped-entities': 'off',
       'react/jsx-props-no-spreading': 'off',
     },
+  },
+  // ===== IMPORT RESOLVER =====
+  // Налаштування для правил eslint-plugin-import (наприклад, import/no-unresolved):
+  // підказує плагіну, як знаходити файли за шляхами в імпортах.
+  // За замовчуванням плагін шукає як Node.js (відносні шляхи і node_modules)
+  // і не знає аліасів з tsconfig (наприклад, '@/*' → './src/*'),
+  // тому кожен імпорт через '@/' позначав як помилку, хоча застосунок працював.
+  //
+  // eslint-import-resolver-typescript читає paths з tsconfig
+  // і розв'язує аліаси так само, як TypeScript.
+  //
+  // Цей об'єкт стоїть в кінці масиву навмисно: у flat config об'єкти зливаються зверху вниз,
+  // і при конфлікті однакового ключа перемагає пізніший. mobileConfig (eslint-config-expo)
+  // теж задає 'import/resolver', тому якщо поставити цей блок вище, резолвер Expo його перекриє.
+  // Інші налаштування й правила при цьому не зачіпаються: перекривається лише цей ключ.
+  {
+    files: ['**/*.{ts,tsx}'],
+    settings: {
+      'import/resolver': {
+        typescript: {
+          // Які tsconfig читати. ESLint запускається з кореня монорепо,
+          // тому шляхи до tsconfig кожного застосунку й пакета вказані явно.
+          project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json']
+        }
+      }
+    }
   },
 ])

@@ -7,8 +7,6 @@ import {
   useWindowDimensions
 } from 'react-native'
 
-import { colors, fontSize, fontWeight, space } from '@app/tokens'
-
 import type { DiscoverItemResponse } from '@app/api'
 
 import { Button } from '../ui'
@@ -125,20 +123,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: space['layout-horizontal'],
     paddingBottom: space[4],
     gap: space[2]
-  },
-  genres: {
-    color: colors.text.primary,
-    fontSize: fontSize.sm
-  },
-  name: {
-    color: colors.text.primary,
-    fontSize: fontSize['2xl'],
-    fontWeight: fontWeight.bold
-  },
-  description: {
-    color: colors.text['little-muted'],
-    fontSize: fontSize.sm,
-    lineHeight: 20,
   },
   bottom: {
     flexDirection: 'row',

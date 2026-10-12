@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react-native'
-import { Pressable, StyleSheet, Text } from 'react-native'
+import { Pressable, StyleSheet, Text, type TextStyle, type ViewStyle } from 'react-native'
 
 import type { TButtonSize, TButtonVariant } from '@app/types'
 
@@ -86,40 +86,37 @@ const styles = StyleSheet.create({
   }
 })
 
-const variantStyles = StyleSheet.create({
-  primary: {
-    backgroundColor: colors.primary
-  },
-  secondary: {
-    backgroundColor: colors.bg.card
-  }
-})
+// Мапи стилів за variant / size. До них звертаються за динамічним ключем
+// (variantStyles[variant], sizeStyles[size]), тому це звичайні об'єкти, а не StyleSheet.create:
+// правило react-native/no-unused-styles бачить лише явні звернення (styles.root)
+// і позначало б усі ключі цих мап як невикористані.
+//
+// satisfies Record<K, ViewStyle> перевіряє об'єкт на відповідність типу:
+// є стиль для кожного ключа K (кожного variant / size), немає зайвих ключів,
+// і кожне значення — коректний стиль (ViewStyle для View/Pressable, TextStyle для Text).
+//
+// Різниця з анотацією типу (const sizeStyles: Record<TButtonSize, ViewStyle> = {...}):
+// - з анотацією тип змінної стає рівно Record<...>, і точний вміст об'єкта TS не пам'ятає:
+//   sizeStyles.md.height має тип DimensionValue | undefined (як властивість height у ViewStyle);
+// - з satisfies TS лише перевіряє об'єкт, а тип змінної виводить із самого об'єкта:
+//   sizeStyles.md.height має тип number, бо там лежить 44.
+// Точний тип потрібен, якщо значення з мапи використовуються не лише в style (наприклад, в обчисленнях).
+const variantStyles = {
+  primary: { backgroundColor: colors.primary },
+  secondary: { backgroundColor: colors.bg.card }
+} satisfies Record<TButtonVariant, ViewStyle>
 
-const sizeStyles = StyleSheet.create({
-  md: {
-    height: 44,
-    paddingHorizontal: space[5]
-  },
-  lg: {
-    height: 56,
-    paddingHorizontal: space[6]
-  }
-})
+const sizeStyles = {
+  md: { height: 44, paddingHorizontal: space[5] },
+  lg: { height: 56, paddingHorizontal: space[6] }
+} satisfies Record<TButtonSize, ViewStyle>
 
-const iconOnlySizes = StyleSheet.create({
-  md: {
-    width: 44
-  },
-  lg: {
-    width: 56
-  }
-})
+const iconOnlySizes = {
+  md: { width: 44 },
+  lg: { width: 56 }
+} satisfies Record<TButtonSize, ViewStyle>
 
-const labelSizes = StyleSheet.create({
-  md: {
-    fontSize: fontSize.sm
-  },
-  lg: {
-    fontSize: fontSize.base
-  }
-})
+const labelSizes = {
+  md: { fontSize: fontSize.sm },
+  lg: { fontSize: fontSize.base }
+} satisfies Record<TButtonSize, TextStyle>
