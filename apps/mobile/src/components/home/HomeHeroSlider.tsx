@@ -7,6 +7,8 @@ import {
   useWindowDimensions
 } from 'react-native'
 
+import { space } from '@app/tokens'
+
 import type { DiscoverItemResponse } from '@app/api'
 
 import { Button } from '../ui'

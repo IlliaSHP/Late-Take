@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router'
-import { Bookmark, ChevronLeft, Plus, Share, Star } from 'lucide-react-native'
+import { Bookmark, ChevronLeft, Share, Star } from 'lucide-react-native'
 import {
   StyleSheet,
   View,
@@ -22,12 +22,12 @@ import { TitleInfo } from '@/components/hero/TitleInfo'
 import SectionCarousel from '@/components/section-carousel/SectionCarousel'
 import TitleCard from '@/components/title-card/TitleCard'
 import { ActionButton } from '@/components/ui/ActionButton'
-import { Button } from '@/components/ui/Button'
 import { FloatingButton } from '@/components/ui/FloatingButton'
 import { Screen } from '@/components/ui/Screen'
 import { CREATOR_ROLE_LABEL } from '@app/constants/src/role'
 import { LinearGradient } from 'expo-linear-gradient'
 import { ReviewsSection } from '@/components/detail/reviews-section/ReviewsSection';
+import { LibraryStatusButton } from '@/components/detail/library-status/LibraryStatusButton';
 
 const OVERLAP = space[20]
 
@@ -138,13 +138,7 @@ export default function TitleDetail() {
             descriptionLines={4}
           />
 
-          <Button
-            icon={Plus}
-            size='lg'
-            onPress={() => {}}
-          >
-            Add to library
-          </Button>
+          <LibraryStatusButton titleKey={title.key} />
 
             {!!cast && (
               <CreditLine
@@ -169,7 +163,7 @@ export default function TitleDetail() {
           <ActionButton
             icon={Star}
             label='Rate'
-            onPress={() => {}}
+            onPress={() => {router.push(`/review/${title.key}`)}}
           />
           <ActionButton
             icon={Share}

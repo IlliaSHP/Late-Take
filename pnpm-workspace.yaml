@@ -9,3 +9,6 @@ allowBuilds:
   unrs-resolver: false
 
 linkWorkspacePackages: true
+
+minimumReleaseAgeExclude:
+  - '@expo/ui@57.0.24'

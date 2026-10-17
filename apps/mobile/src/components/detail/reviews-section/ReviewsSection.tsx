@@ -10,11 +10,16 @@ interface Props {
 }
 
 export function ReviewsSection({ titleKey }: Props) {
-  // отримуємо reviews через key конкретного тайтлу
+  // Завантажує з сервера список відгуків на конкретний тайтл:
+  //  - titleKey — ключ тайтлу (наприклад, 'tmdb-movie-603'), для якого шукаємо відгуки
+  //  - { take: 3 } — взяти тільки 3 відгуки (на детальній сторінці показуємо коротко)
+  // Завантажений список запам'ятовується; після збереження відгуку useSaveReview
+  // інвалідує його, і цей хук сам завантажує список заново
   const { data } = useReviewFindByDiscoverKey(titleKey, { take: 3 })
-  // Якщо статус 200 з беку, тоді правильні дані прийшли
+  // Якщо сервер відповів 200 — беремо дані відгуків: items (самі відгуки) і total (скільки їх усього)
   const reviews = data?.status === 200 ? data.data : null
 
+  // Відгуків немає — секцію не показуємо
   if (!reviews?.items.length) return null
 
   return (

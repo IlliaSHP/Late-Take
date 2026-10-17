@@ -25,7 +25,7 @@ const SHEET_OPTIONS:NativeStackNavigationOptions = {
   presentation: 'formSheet', // шторка знизу, попередній екран видно позаду
   // Висоти, на яких зупиняється шторка (частки екрана): відкривається на 60%, тягнеться до 100%.
   // На відміну від 'fitToContents' (висота = вміст), не стрибає при відкритті клавіатури чи зміні Input.
-  sheetAllowedDetents: [0.6, 1],
+  sheetAllowedDetents: [0.7],
   sheetGrabberVisible: true,  // смужка-ручка зверху, щоб тягнути шторку вниз
   contentStyle: {backgroundColor: colors.bg.base}  // фон з токенів замість фону теми
 }
